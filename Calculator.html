@@ -1,0 +1,152 @@
+<<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>My Portfolio</title>
+	<style>
+		/* Internal CSS */
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-image: url("https://t4.ftcdn.net/jpg/02/99/84/89/360_F_299848927_S0EwX0P6HWGigW6qZWFIBaczKMQuq5D9.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		input {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			height: 30px;
+			width: 290px;
+			font-size: 19px;
+			font-weight: 200;
+		}
+		.box {
+			background-color: #130a36;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			height: 400px;
+			width: 400px;
+			margin: 200px auto;
+		}
+		button {
+			margin: 15px;
+			padding: 8px;
+			font-size: 19px;
+			color: #130a36;
+			font-weight: bold;
+			border-radius: 6px;
+			width: 50px;
+			border: 1.5px solid #8269db;
+			background-color: lightblue;
+			transition: background-color 0.3s, color 0.3s; /* Add transition for smooth effect */
+		}
+		button:hover { 
+		   background-color: #1b4169;
+		   color: white;
+		}
+		/* Media query for responsive design */
+		@media (max-width: 500px) {
+			.box {
+				width: 300px;
+			}
+			input {
+				width: 220px;
+			}
+			button {
+				width: 40px;
+				font-size: 16px;
+				padding: 6px;
+				margin: 10px;
+			}
+		}
+	</style>
+</head>
+<body>
+	
+<div class="box">
+	<input type="text" id="inputt" value="0" readonly>
+	<div>
+		<button onclick="showInput('7')">7</button>
+		<button onclick="showInput('8')">8</button>
+		<button onclick="showInput('9')">9</button>
+		<button onclick="showInput('/')">/</button>
+	</div>
+	<div>
+		<button onclick="showInput('4')">4</button>
+		<button onclick="showInput('5')">5</button>
+		<button onclick="showInput('6')">6</button>
+		<button onclick="showInput('*')">*</button>
+	</div>
+	<div>
+		<button onclick="showInput('1')">1</button>
+		<button onclick="showInput('2')">2</button>
+		<button onclick="showInput('3')">3</button>
+		<button onclick="showInput('-')">-</button>
+	</div>
+	<div>
+		<button onclick="clearInput()">AC</button>
+		<button onclick="showInput('0')">0</button>
+		<button onclick="calculate()">=</button>
+		<button onclick="showInput('+')">+</button>
+	</div>
+</div>
+
+<script>
+	// Internal JavaScript
+	let inputText = document.getElementById("inputt");
+
+	function clearInput() {
+		inputText.value = "0";
+	}
+
+	function showInput(value) {
+		if (inputText.value == "0") {
+			inputText.value = value;
+		} else {
+			inputText.value += value;
+		}
+	}
+
+	function calculate() {
+		let expression = inputText.value;
+		let result = 0;
+		let operator = null;
+		let numbers = [];
+
+		for (let i = 0; i < expression.length; i++) {
+			if (expression[i] == '+' || expression[i] == '-' || expression[i] == '*' || expression[i] == '/') {
+				if (operator != null) {
+					result = performCalculation(result, operator, numbers.join(''));
+					numbers = [];
+				} else {
+					result = parseFloat(numbers.join(''));
+					numbers = [];
+				}
+				operator = expression[i];
+			} else {
+				numbers.push(expression[i]);
+			}
+		}
+		result = performCalculation(result, operator, numbers.join(''));
+		inputText.value = result;
+	}
+
+	function performCalculation(result, operator, number) {
+		if (operator == '+') {
+			return result + parseFloat(number);
+		} else if (operator == '-') {
+			return result - parseFloat(number);
+		} else if (operator == '*') {
+			return result * parseFloat(number);
+		} else if (operator == '/') {
+			return result / parseFloat(number);
+		}
+		return result;
+	}
+</script>
+</body>
+</html>
+
